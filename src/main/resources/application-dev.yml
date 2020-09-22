@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: eureka-server
+  security:
+    user:
+      name: cloud
+      password: d27cc366-b504-4b2b-b863-7b8cc7ad2fa4
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    registry:
+      expected-number-of-clients-sending-renews: 1
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/eureka
+  #      defaultZone: http://localhost:8761/eureka
+
+
+  server:
+    #    Eureka Server 基本参数
+    enable-self-preservation: true
+    renewal-percent-threshold: 0.85
+    renewal-threshold-update-interval-ms: 900000
+    #    eviction-interval-timer-in-ms: 6000000
+    #    参数调优
+    eviction-interval-timer-in-ms: 5000
+    #    Eureka Server response cache 参数
+    use-read-only-response-cache: true
+    response-cache-update-interval-ms: 30000
+    response-cache-auto-expiration-in-seconds: 180
+    #    Eureka Server peer 相关参数
+    peer-eureka-nodes-update-interval-ms: 6000000
+    peer-eureka-status-refresh-time-interval-ms: 30000
+    #    Eureka Server Http 相关参数
+    peer-node-connect-timeout-ms: 200
+    peer-node-read-timeout-ms: 200
+    peer-node-total-connections: 1000
+    peer-node-total-connections-per-host: 500
+    peer-node-connection-idle-timeout-seconds: 30
+    wait-time-in-ms-when-sync-empty: 0
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+info:
+  author.name: zuoyao@xosw.com
+  app.name: microservice
+  server.port: ${server.port}
+  application.name: ${spring.application.name}
+logging:
+  file:
+    path: D:/code/logs
+    name: eureka-server.log
+    max-size: 10
+    max-history: 7
+    total-size-cap: 0B
+    clean-history-on-start: true
+  level:
+    - org.springframework.jdbc.corev: debug
+    - org.hibernate.SQL: debug
+    - org.jooq.tools.LoggerListener: debug
+  config: classpath:logback-spring.xml
+server:
+  port: 8761
+  servlet:
+    context-path: /
